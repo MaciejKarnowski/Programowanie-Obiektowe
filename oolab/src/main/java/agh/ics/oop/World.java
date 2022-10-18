@@ -13,7 +13,8 @@ public class World {
                 case "b" -> direction = Direction.BACKWARD;
                 case "l" -> direction = Direction.LEFT;
                 case "r" -> direction = Direction.RIGHT;
-                default -> direction = null;
+                default -> {
+                }
 
             }
             if (direction!=null){
@@ -22,7 +23,13 @@ public class World {
 
         }
         ;
-        out.print("System zakończył działanie");
+        out.print("System zakończył działanie\n");
+
+        Vector2d position1 = new Vector2d(1,2);
+        System.out.println(position1);
+        Vector2d position2 = new Vector2d(-2,1);
+        System.out.println(position2);
+        System.out.println(position1.add(position2));
     }
 
     public static void run(Direction args) {
@@ -32,8 +39,8 @@ public class World {
             case BACKWARD -> "zwierzak idzie do tyłu";
             case LEFT -> "zwierzak idzie w lewo";
             case RIGHT -> "zwierzak idzie w prawo";
-            default -> null;
         };
         out.println(direction);
     }
+
 }
