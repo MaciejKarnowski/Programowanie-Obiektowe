@@ -1,4 +1,3 @@
-<<<<<<< HEAD:oolab/build.gradle
 plugins {
     id 'application'
     id 'java'
@@ -26,33 +25,4 @@ java {
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
-=======
-plugins {
-    id 'application'
-    id 'java'
-}
-
-group 'org.example'
-version '1.0-SNAPSHOT'
-
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-}
-
-test {
-    useJUnitPlatform()
-}
-application {
-    getMainClass().set('agh.ics.oop.World')
-}
-java {
-    toolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
->>>>>>> 43e2077 (lab03 - parser):build.gradle
 }
