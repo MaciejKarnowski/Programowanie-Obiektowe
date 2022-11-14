@@ -3,35 +3,48 @@ package agh.ics.oop;
 import java.util.Map;
 
 public class Animal {
-    private Vector2d position = new Vector2d(2,2);
-    private MapDirection map= MapDirection.NORTH;
+    private Vector2d position;
+    private final IWorldMap map;
+    private MapDirection direction;
+
+    public Animal(IWorldMap map, Vector2d InitialPosition) {
+        this.map = map;
+        this.direction = MapDirection.NORTH;
+        this.position = InitialPosition;
+    }
+
     public String toString() {
-        return "(Zwierze znajduje się na: "
-                + position +
-                ", i jest zwrócone w strone: " + map +
-                ')';
+        return switch (direction) {
+            case NORTH -> "^"+position;
+            case EAST -> ">"+position;
+            case SOUTH -> "v"+position;
+            case WEST -> "<"+position;
+        };
     }
+
     public boolean isAt(Vector2d position) {
-        return position == this.position;
+        return this.position.equals(position);
     }
+    public Vector2d getPosition() {
+        return position;
+    }
+    public MapDirection getDirection() {
+        return direction;
+    }
+    private Vector2d correctMove(Vector2d move) {
+        var new_pos = this.position.add(move);
+        if (this.map.canMoveTo(new_pos) && !this.map.isOccupied(new_pos))
+            return new_pos;
+        else
+            return this.position;
+    }
+
     public void move(MoveDirection direction){
-        if (direction==MoveDirection.LEFT){
-            this.map=map.previous();
-        }
-        if (direction==MoveDirection.RIGHT){
-            this.map=map.next();
-        }
-        if (direction==MoveDirection.FORWARD){
-            this.position=this.position.add(map.toUnitVector());
-                if((this.position.x==5) || (this.position.x==-1) || (this.position.y==5) || (this.position.y==-1)){
-                    this.position=this.position.substract(map.toUnitVector());
-                }
-        }
-        if (direction==MoveDirection.BACKWARD){
-            this.position=this.position.substract(map.toUnitVector());
-            if((this.position.x==5) || (this.position.x==-1)|| (this.position.y==5)|| (this.position.y==-1)){
-                this.position=this.position.add(map.toUnitVector());
-            }
+        switch (direction) {
+            case RIGHT -> this.direction = this.direction.next();
+            case LEFT -> this.direction = this.direction.previous();
+            case FORWARD -> this.position = correctMove(this.direction.toUnitVector());
+            case BACKWARD -> this.position = correctMove(this.direction.toUnitVector().opposite());
         }
 
     }

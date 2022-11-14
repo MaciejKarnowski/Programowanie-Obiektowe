@@ -1,26 +1,27 @@
 package agh.ics.oop;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class OptionsParser {
-    MoveDirection direct = null;
-    public MoveDirection parse(String ruchy){
-
-            if ((ruchy.equals("f")) || (ruchy.equals("forward"))){
-                direct = MoveDirection.FORWARD;
+    public MoveDirection[] parse(String[] input) {
+        int n = input.length;
+        MoveDirection[] directions = new MoveDirection[n];
+        int j =0;
+        for (String s : input) {
+            switch (s) {
+                case "f", "forward" -> directions[j] = MoveDirection.FORWARD;
+                case "b", "backward" -> directions[j] = MoveDirection.BACKWARD;
+                case "r", "right" -> directions[j] = MoveDirection.RIGHT;
+                case "l", "left" -> directions[j] = MoveDirection.LEFT;
+                default -> {
+                    continue;
+                }
             }
-            if ((ruchy.equals("b")) || (ruchy.equals("backward"))){
-                direct = MoveDirection.BACKWARD;
-            }
-            if ((ruchy.equals("l")) || (ruchy.equals("left"))){
-                direct = MoveDirection.LEFT;
-            }
-            if ((ruchy.equals("r")) || (ruchy.equals("right"))){
-                direct = MoveDirection.RIGHT;
-            }
-     return direct;
+            j += 1;
+        }
+        return directions;
     }
+
 
 }
