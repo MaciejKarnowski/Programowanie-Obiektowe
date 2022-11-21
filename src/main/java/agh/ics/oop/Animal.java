@@ -15,10 +15,10 @@ public class Animal {
 
     public String toString() {
         return switch (direction) {
-            case NORTH -> "^"+position;
-            case EAST -> ">"+position;
-            case SOUTH -> "v"+position;
-            case WEST -> "<"+position;
+            case NORTH -> "^";
+            case EAST -> ">";
+            case SOUTH -> "v";
+            case WEST -> "<";
         };
     }
 

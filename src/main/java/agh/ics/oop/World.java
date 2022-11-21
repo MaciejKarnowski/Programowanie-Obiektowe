@@ -54,23 +54,12 @@ public class World {
         // a następnie sprawdza, czy zwierzak moze ruszyc sie na dane miejsce.
 
         MoveDirection[] directions = new OptionsParser().parse(args);
-        IWorldMap map = new RectangularMap(10, 5);
+        IWorldMap map = new GrassField(10);
         Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
         IEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
+        System.out.print(map.toString());
     }
 
-
-
-    public static void run(Direction args) {
-
-        String direction = switch (args) {
-            case FORWARD -> "zwierzak idzie do przodu";
-            case BACKWARD -> "zwierzak idzie do tyłu";
-            case LEFT -> "zwierzak idzie w lewo";
-            case RIGHT -> "zwierzak idzie w prawo";
-        };
-        out.println(direction);
-    }
 
 }

@@ -18,7 +18,7 @@ public class IntegrationTests {
         assertEquals(new Vector2d(3,5),map.objectAt(new Vector2d(3, 5)));
         assertNull(map.objectAt(new Vector2d(1, 5)));
         assertTrue(map.isOccupied(new Vector2d(3, 5)));
-        assertTrue(map.isOccupied(new Vector2d(2, 0)));git
+        assertTrue(map.isOccupied(new Vector2d(2, 0)));
     }
     @Test
     void testNoMoves() {

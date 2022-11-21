@@ -6,10 +6,11 @@ import java.util.HashSet;
 
 public class SimulationEngine implements IEngine{
     private final MoveDirection[] moves;
-    private final ArrayList<Animal> animals = new ArrayList<>();
+    private final ArrayList<Animal> animals;
     private final IWorldMap map;
     public SimulationEngine(MoveDirection[] movesList,IWorldMap map,Vector2d[] initialPositions){
         this.moves = movesList;
+        this.animals= new ArrayList<>();
         this.map = map;
         for(Vector2d pos: initialPositions){
             Animal animal = new Animal(map,pos);
