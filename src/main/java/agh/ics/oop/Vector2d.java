@@ -53,7 +53,7 @@ public class Vector2d {
             newy=other.y;
         return new Vector2d(newx,newy);
     }
- public Vector2d opposite(){
+    public Vector2d opposite(){
         return new Vector2d((-1)*this.x,(-1)*this.y);
  }
 
@@ -65,6 +65,10 @@ public class Vector2d {
             return false;
         Vector2d vector2d = (Vector2d) other;
         return x == vector2d.x && y == vector2d.y;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(this.x, this.y);
     }
 
 }

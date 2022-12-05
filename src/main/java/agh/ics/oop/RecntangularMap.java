@@ -3,8 +3,8 @@ package agh.ics.oop;
 import java.util.*;
 
 class RectangularMap extends AbstractWorldMap{
-    protected Vector2d lowerLeft;
-    protected Vector2d UpperRight;
+    private final Vector2d lowerLeft;
+    private final Vector2d UpperRight;
 
 
     public RectangularMap(int width,int height ) {
@@ -16,33 +16,9 @@ class RectangularMap extends AbstractWorldMap{
 
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if (this.isOccupied(position)) return false;
-        return position.follows(lowerLeft) && position.precedes(UpperRight);
-    }
-
-    @Override
-    public boolean place(Animal animal) {
-        if (!this.canMoveTo(animal.getPosition())) return false;
-        this.animals.add(animal);
-        return true;
-    }
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        for (Animal i: this.animals) {
-            if (i.isAt(position)) {
-                return true;
-            }
-        }
-        return false;
-    }
-    @Override
-    public Object objectAt(Vector2d position) {
-        for (Animal i: this.animals) {
-            if (i.isAt(position)) {
-                return i;
-            }
-        }
-        return null;
+        return super.canMoveTo(position)
+                && position.follows(lowerLeft)
+                && position.precedes(upperRight);
     }
 
     @Override

@@ -1,13 +1,15 @@
 package agh.ics.oop;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.Map;
 import java.util.Random;
 
 public class GrassField extends AbstractWorldMap{
     protected int amount;
     Vector2d lowerBound;
     Vector2d upperBound;
-    ArrayList<Grass> positions_of_grass =new ArrayList<>();
+    protected final Map<Vector2d, Grass> positions_of_grass = new LinkedHashMap<>();
 
 
     public GrassField(int amount){
@@ -34,7 +36,7 @@ public class GrassField extends AbstractWorldMap{
             int y = rand.nextInt(max);
             loc = new Vector2d(x, y);
         }
-        positions_of_grass.add(new Grass(loc));
+        positions_of_grass.put(loc,new Grass(loc));
     }
 
 
@@ -45,43 +47,39 @@ public class GrassField extends AbstractWorldMap{
         }
         return true;
     }
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        for (Animal animal: animals) {
-            if (animal.isAt(position)) return true;
-        }
-        for (Grass grass: this.positions_of_grass) {
-            if (grass.getPosition().equals(position)) return true;
-        }
-        return false;
-    }
 
     @Override
+    public boolean isOccupied(Vector2d position) {
+        if (super.isOccupied(position)) return true;
+        return this.positions_of_grass.get(position) != null;
+    }
+    @Override
     public Object objectAt(Vector2d position) {
-       for (Animal animal: this.animals) {
-            if (animal.isAt(position)) return animal;
-        }
-        for (Grass grass: this.positions_of_grass) {
-            if (grass.getPosition().equals(position)) return grass;
-        }
-        return null;
+        if (super.objectAt(position) != null ) return super.objectAt(position);
+        return this.positions_of_grass.get(position);
     }
     @Override
     public void setBounds() {
         if (!animals.isEmpty()) {
-            mapLowerLeft = mapUpperRight = animals.get(0).getPosition();
+            for (Animal i: animals.values()) {
+                mapLowerLeft = mapUpperRight = i.getPosition();
+                break;
+            }
         } else if (!positions_of_grass.isEmpty()) {
-            mapLowerLeft = mapUpperRight = positions_of_grass.get(0).getPosition();
+            for (Grass i: positions_of_grass.values()) {
+                mapLowerLeft = mapUpperRight = i.getPosition();
+                break;
+            }
         } else {
             mapLowerLeft = new Vector2d(0,0);
             mapUpperRight = new Vector2d(0,0);
             return;
         }
-        for (Animal i: animals) {
+        for (Animal i: animals.values()) {
             mapLowerLeft = mapLowerLeft.lowerLeft(i.getPosition());
             mapUpperRight = mapUpperRight.upperRight(i.getPosition());
         }
-        for (Grass i: positions_of_grass) {
+        for (Grass i: positions_of_grass.values()) {
             mapLowerLeft = mapLowerLeft.lowerLeft(i.getPosition());
             mapUpperRight = mapUpperRight.upperRight(i.getPosition());
         }
