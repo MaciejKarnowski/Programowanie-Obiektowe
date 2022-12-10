@@ -3,25 +3,11 @@ package agh.ics.oop;
 import java.util.*;
 
 abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObserver {
-    Vector2d lowerLeft, upperRight;
-    Vector2d mapLowerLeft, mapUpperRight;
+    public Vector2d lowerLeft,upperRight;
+    MapBoundary bounds = new MapBoundary();
+    Map<Vector2d, Animal> animals = new HashMap<>();
 
-    protected Map<Vector2d, Animal> animals = new LinkedHashMap<>();
-    @Override
-    public boolean place(Animal animal) {
-        if (!this.canMoveTo(animal.getPosition())) return false;
-        if (isOccupied(animal.getPosition()) && (objectAt(animal.getPosition()) instanceof Animal)) {return false;}
-        animals.put(animal.getPosition(), animal);
-        animal.addObserver(this);
-        return true;
-    }
-    @Override
-    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        Animal this_animal = this.animals.get(oldPosition);
-        this.animals.remove(oldPosition);
-        this.animals.put(newPosition, this_animal);
 
-    }
     public boolean isOccupied(Vector2d position) {
         return animals.get(position) != null;
     }
@@ -33,15 +19,38 @@ abstract public class AbstractWorldMap implements IWorldMap, IPositionChangeObse
     }
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if (this.isOccupied(position)) return false;
-        return position.precedes(this.upperRight) && position.follows(this.lowerLeft);
+        return position.precedes(upperRight) && position.follows(lowerLeft);
+    }
+    @Override
+    public boolean place(Animal animal) throws IllegalArgumentException {
+        Vector2d position = animal.getPosition();
+        if (isOccupied(position) && (objectAt(position) instanceof Animal))
+        {
+            throw new IllegalArgumentException("You can't place animal at: " + position.toString() + ", position is already occupied by animal");
+        }
+        animals.put(position, animal);
+        bounds.addElement(position);
+        animal.addObserver(this);
+        return true;
+    }
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
+        Animal this_animal = this.animals.get(oldPosition);
+        this.animals.remove(oldPosition);
+        this.animals.put(newPosition, this_animal);
+        if (this instanceof GrassField && this.objectAt(oldPosition) instanceof Grass) {
+            bounds.addElement(newPosition);
+        } else {
+            bounds.positionChanged(oldPosition, newPosition);
+        }
+
     }
     @Override
     public String toString() {
         MapVisualizer visualization = new MapVisualizer(this);
-        setBounds();
-        return visualization.draw(this.mapLowerLeft, this.mapUpperRight);
+        return visualization.draw(getLowerBound(), getUpperBound());
     }
-    abstract public void setBounds();
+    public abstract Vector2d getLowerBound();
+    public abstract Vector2d getUpperBound();
 
 }

@@ -1,5 +1,8 @@
 package agh.ics.oop;
 
+import agh.ics.oop.gui.App;
+import javafx.application.Application;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -52,13 +55,24 @@ public class World {
 //        System.out.println(koza.toString());
     //Sprawdzanie dwóch zwierzaków na tych samych miejscach: Stworzyć tablice, która przechowuje aktualne miejsca zwierzaków,
         // a następnie sprawdza, czy zwierzak moze ruszyc sie na dane miejsce.
+        try {
+            Application.launch(App.class, args);
+        } catch (IllegalArgumentException e) {
+            System.out.println("incorrect input, " + e.getMessage());
+        }
+//        try
+//        {
+//            MoveDirection[] directions = new OptionsParser().parse(args);
+//            IWorldMap map = new GrassField(10);
+//            Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4)};
+//            IEngine engine = new SimulationEngine(directions, map, positions);
+//            engine.run();
+//            System.out.print(map.toString());
+//        }
+//        catch (Exception ex)
+//        {   System.out.println(ex.toString());
+//        }
 
-        MoveDirection[] directions = new OptionsParser().parse(args);
-        IWorldMap map = new GrassField(10);
-        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
-        IEngine engine = new SimulationEngine(directions, map, positions);
-        engine.run();
-        System.out.print(map.toString());
     }
 
 

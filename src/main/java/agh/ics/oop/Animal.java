@@ -3,16 +3,18 @@ package agh.ics.oop;
 import java.util.ArrayList;
 import java.util.Map;
 
-public class Animal {
-    private Vector2d position;
+public class Animal implements IElementMap{
     private final IWorldMap map;
-    private MapDirection direction;
+    private Vector2d position;
+    private MapDirection direction = MapDirection.NORTH;
     private ArrayList<IPositionChangeObserver> observerList = new ArrayList<>();
+    public Animal(IWorldMap map) {
+        this(map, new Vector2d(2, 2));
+    }
 
-    public Animal(IWorldMap map, Vector2d InitialPosition) {
+    public Animal(IWorldMap map, Vector2d initialPosition) {
         this.map = map;
-        this.direction = MapDirection.NORTH;
-        this.position = InitialPosition;
+        this.position = initialPosition;
     }
 
     public String toString() {
@@ -33,22 +35,21 @@ public class Animal {
     public MapDirection getDirection() {
         return direction;
     }
-    private Vector2d correctMove(Vector2d move) {
-        var new_pos = this.position.add(move);
-        if (this.map.canMoveTo(new_pos) && !this.map.isOccupied(new_pos))
-            return new_pos;
-        else
-            return this.position;
+    private void correctMove(Vector2d move) {
+        if(map.canMoveTo(move)) {
+            positionChanged(move);
+            position = move;
+        }
     }
 
-    public void move(MoveDirection direction){
-        switch (direction) {
-            case RIGHT -> this.direction = this.direction.next();
-            case LEFT -> this.direction = this.direction.previous();
-            case FORWARD -> this.position = correctMove(this.direction.toUnitVector());
-            case BACKWARD -> this.position = correctMove(this.direction.toUnitVector().opposite());
-        }
+    public void move(MoveDirection orientation) {
+        switch(orientation) {
+            case FORWARD -> correctMove(position.add(direction.toUnitVector()));
+            case BACKWARD -> correctMove(position.substract(direction.toUnitVector()));
+            case RIGHT -> direction = direction.next();
+            case LEFT -> direction = direction.previous();
 
+        }
     }
     void addObserver(IPositionChangeObserver observer) {
         observerList.add(observer);
@@ -57,10 +58,9 @@ public class Animal {
     void removeObserver(IPositionChangeObserver observer) {
         observerList.remove(observer);
     }
-    void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-        for (IPositionChangeObserver i: observerList) {
-            i.positionChanged(oldPosition, newPosition);
-        }
+    private void positionChanged(Vector2d newPos) {
+        for(IPositionChangeObserver observer : observerList)
+            observer.positionChanged(position, newPos);
     }
 
 

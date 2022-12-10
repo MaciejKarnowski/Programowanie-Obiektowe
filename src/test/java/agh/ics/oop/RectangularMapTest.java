@@ -1,5 +1,6 @@
 package agh.ics.oop;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
@@ -16,24 +17,10 @@ public class RectangularMapTest {
         assertFalse(map.canMoveTo(new Vector2d(0, 20)));
         assertFalse(map.canMoveTo(new Vector2d(20, 0)));
     }
-    @Test
-    void testCanMoveEverywhereOnWholeEmptyMap() {
-        final int x = 4;
-        final int y = 5;
-
-        RectangularMap map = new RectangularMap(x, y);
-
-        for (int i = 0; i < x; i++) {
-            for (int j = 0; j < y; j++) {
-                assertTrue(map.canMoveTo(new Vector2d(x, y)));
-            }
-        }
-    }
 
     @Test
     void testPLaceAnimal() {
         RectangularMap map = new RectangularMap(10, 10);
-
         assertTrue(map.place(new Animal(map, new Vector2d(1, 1))));
         assertFalse(map.place(new Animal(map, new Vector2d(1, 1))));
         assertFalse(map.place(new Animal(map, new Vector2d(-1, -1))));

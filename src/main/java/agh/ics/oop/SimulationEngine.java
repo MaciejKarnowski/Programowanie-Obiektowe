@@ -6,27 +6,31 @@ import java.util.HashSet;
 
 public class SimulationEngine implements IEngine{
     private final MoveDirection[] moves;
-    private final ArrayList<Animal> animals;
+    protected Vector2d[] initialPositions;
     private final IWorldMap map;
     public SimulationEngine(MoveDirection[] movesList,IWorldMap map,Vector2d[] initialPositions){
         this.moves = movesList;
-        this.animals= new ArrayList<>();
         this.map = map;
-        for(Vector2d pos: initialPositions){
-            Animal animal = new Animal(map,pos);
-            if(map.place(animal)){
-                animals.add(animal);
-            }
-        }
+        this.initialPositions = initialPositions;
+
     }
 
     @Override
     public void run() {
-        int numOfAnimals = animals.size();
+        ArrayList<Animal> animals = new ArrayList<>();
+        for (Vector2d position: initialPositions) {
+            Animal newAnimal = new Animal(map, position);
+            if (map.place(newAnimal)) {
+                animals.add(newAnimal);
+            }
+        }
+        if (animals.isEmpty())
+            return;
         int curAnimal = 0;
         for(MoveDirection m: moves){
-            animals.get(curAnimal%numOfAnimals).move(m);
+            animals.get(curAnimal).move(m);
             curAnimal += 1;
+            curAnimal %= animals.size();
 
         }
     }
