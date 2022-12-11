@@ -29,8 +29,19 @@ public class Animal implements IElementMap{
     public boolean isAt(Vector2d position) {
         return this.position.equals(position);
     }
+    @Override
     public Vector2d getPosition() {
         return position;
+    }
+    @Override
+    public String getFileName() {
+        switch (this.direction) {
+            case NORTH -> {return "up.png";}
+            case WEST -> {return "left.png";}
+            case SOUTH -> {return "down.png";}
+            case EAST -> {return "right.png";}
+            default -> {return "grass.png";}
+        }
     }
     public MapDirection getDirection() {
         return direction;

@@ -6,7 +6,7 @@ class RectangularMap extends AbstractWorldMap{
     public Vector2d mapLowerLeft, mapUpperRight;
     public RectangularMap(int width,int height ) {
         this.lowerLeft = new Vector2d(0,0);
-        this.upperRight=new Vector2d(width,height);
+        this.upperRight=new Vector2d( width,height);
         this.mapUpperRight=this.upperRight;
         this.mapLowerLeft=this.lowerLeft;
     }
@@ -20,10 +20,10 @@ class RectangularMap extends AbstractWorldMap{
     }
     @Override
     public Vector2d getLowerBound() {
-        return mapLowerLeft;
+        return mapLowerLeft=this.lowerLeft;
     }
     @Override
     public Vector2d getUpperBound(){
-        return mapUpperRight;
+        return mapUpperRight=this.upperRight;
     }
 }

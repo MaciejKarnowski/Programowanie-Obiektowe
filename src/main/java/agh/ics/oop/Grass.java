@@ -1,8 +1,11 @@
 package agh.ics.oop;
 
-public class Grass {
+public class Grass implements IElementMap{
     protected Vector2d grass;
-
+    @Override
+    public String getFileName() {
+        return "grass.png";
+    }
     public Grass(Vector2d grass){
         this.grass= grass;
     }
