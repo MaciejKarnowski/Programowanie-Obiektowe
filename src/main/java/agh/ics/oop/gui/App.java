@@ -16,10 +16,10 @@ public class App extends javafx.application.Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        AbstractWorldMap map = new GrassField(10);
+        AbstractWorldMap map = new GrassField(6);
         String[] args = getParameters().getRaw().toArray(new String[0]);
         MoveDirection[] direction = new OptionsParser().parse(args);
-        Vector2d[] position = {new Vector2d(4, 0), new Vector2d(2,0), new Vector2d(7,0), new Vector2d(3,0)};
+        Vector2d[] position = {new Vector2d(4, 0), new Vector2d(2,5), new Vector2d(7,5)};
         SimulationEngine engine = new SimulationEngine(direction, map, position);
         engine.run();
 
@@ -47,16 +47,16 @@ public class App extends javafx.application.Application{
         grid.getColumnConstraints().add(new ColumnConstraints(20));
         grid.getRowConstraints().add(new RowConstraints(20));
         GridPane.setHalignment(label, HPos.CENTER);
-        for (int i = map.getLowerBound().x; i <= map.getUpperBound().x; i++) {
+        for (int i = map.getLowerBound().x; i <= map.getUpperBound().x ; i++) {
             label = new Label(String.format("%d", i));
-            grid.add(label, i - map.getLowerBound().x, 0);
+            grid.add(label, i - map.getLowerBound().x + 1 , 0);
             grid.getColumnConstraints().add(new ColumnConstraints(20));
             GridPane.setHalignment(label, HPos.CENTER);
 
         }
         for (int i = map.getUpperBound().y; i >= map.getLowerBound().y; i--) {
-            label = new Label(String.format("%d", map.getUpperBound().y - i));
-            grid.add(label, 0, i - map.getLowerBound().y);
+            label = new Label(String.format("%d", i));
+            grid.add(label, 0, map.getUpperBound().y-i+1);
             grid.getRowConstraints().add(new RowConstraints(20));
             GridPane.setHalignment(label, HPos.CENTER);
         }
@@ -65,12 +65,12 @@ public class App extends javafx.application.Application{
     void drawObjects(AbstractWorldMap map, GridPane grid) {
         for (int i = map.getLowerBound().x; i <= map.getUpperBound().x; i++) {
             for (int j = map.getUpperBound().y; j >= map.getLowerBound().y; j--) {
-                Object toAdd = map.objectAt(new Vector2d(i, j));
+                Object toAdd = map.objectAt(new Vector2d(i , j));
                 if (toAdd == null) {
                     continue;
                 }
                 Label label = new Label(toAdd.toString());
-                grid.add(label, i , map.getUpperBound().y - j);
+                grid.add(label, i - map.getLowerBound().x + 1, map.getUpperBound().y - j + 1);
                 GridPane.setHalignment(label, HPos.CENTER);
             }
         }
