@@ -19,7 +19,7 @@ public class App extends javafx.application.Application{
         AbstractWorldMap map = new GrassField(10);
         String[] args = getParameters().getRaw().toArray(new String[0]);
         MoveDirection[] direction = new OptionsParser().parse(args);
-        Vector2d[] position = {new Vector2d(4, 0), new Vector2d(2,0)};
+        Vector2d[] position = {new Vector2d(4, 0), new Vector2d(2,0), new Vector2d(7,0), new Vector2d(3,0)};
         SimulationEngine engine = new SimulationEngine(direction, map, position);
         engine.run();
 

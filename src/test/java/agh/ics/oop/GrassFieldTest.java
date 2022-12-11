@@ -3,8 +3,7 @@ package agh.ics.oop;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class GrassFieldTest {
     @Test
@@ -48,6 +47,13 @@ public class GrassFieldTest {
         Vector2d pos = new Vector2d(1, 1);
         map.place(new Animal(map, pos));
         assertFalse(map.canMoveTo(pos));
+    }
+    @Test
+    void testPLaceAnimal() {
+        GrassField map = new GrassField(0);
+
+        assertDoesNotThrow(() -> map.place(new Animal(map, new Vector2d(1, 1))));
+        assertThrows(IllegalArgumentException.class, () -> map.place(new Animal(map, new Vector2d(1, 1))));
     }
 
     @Test

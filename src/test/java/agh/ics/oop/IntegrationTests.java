@@ -44,6 +44,7 @@ public class IntegrationTests {
         assertTrue(map.isOccupied(new Vector2d(2, 5)));
 
     }
+
     @Test
     void testAnimalsCollisions() {
         String[] args = {"f", "r", "f", "r", "f", "f", "f", "f", "f", "f", "f", "f", "f" ,"f", "f", "f"};
