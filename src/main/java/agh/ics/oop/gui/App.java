@@ -49,14 +49,14 @@ public class App extends javafx.application.Application{
         GridPane.setHalignment(label, HPos.CENTER);
         for (int i = map.getLowerBound().x; i <= map.getUpperBound().x; i++) {
             label = new Label(String.format("%d", i));
-            grid.add(label, i - map.getLowerBound().x + 1, 0);
+            grid.add(label, i - map.getLowerBound().x, 0);
             grid.getColumnConstraints().add(new ColumnConstraints(20));
             GridPane.setHalignment(label, HPos.CENTER);
 
         }
         for (int i = map.getUpperBound().y; i >= map.getLowerBound().y; i--) {
             label = new Label(String.format("%d", map.getUpperBound().y - i));
-            grid.add(label, 0, i - map.getLowerBound().y + 1);
+            grid.add(label, 0, i - map.getLowerBound().y);
             grid.getRowConstraints().add(new RowConstraints(20));
             GridPane.setHalignment(label, HPos.CENTER);
         }
@@ -70,7 +70,7 @@ public class App extends javafx.application.Application{
                     continue;
                 }
                 Label label = new Label(toAdd.toString());
-                grid.add(label, i + 1, map.getUpperBound().y - j + 1);
+                grid.add(label, i , map.getUpperBound().y - j);
                 GridPane.setHalignment(label, HPos.CENTER);
             }
         }
