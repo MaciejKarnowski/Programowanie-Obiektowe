@@ -74,9 +74,10 @@ public class App extends javafx.application.Application implements IGUIObserver{
     public void render() {
         Platform.runLater(() -> {
             grid.getChildren().clear();
-            grid.setGridLinesVisible(false);
+            
             try {
                 draw();
+                grid.setGridLinesVisible(false);
             } catch (FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
